@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="AppTheme" parent="AppTheme.Base">
+        <item name="android:colorPrimary">@color/mColorPrimary</item>
+        <item name="android:colorPrimaryDark">@color/mColorPrimaryDark</item>
+        <item name="android:colorAccent">@color/mAccent</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">true</item>

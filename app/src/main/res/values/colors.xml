@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Material Design Base Colors -->
-    <color name="colorPrimary">@color/white</color>
-    <color name="colorPrimaryDark">#2b4172</color>
+        <!-- http://www.google.com/design/spec/style/color.html#color-color-palette -->
+    <!-- Indigo theme -->
+    <color name="mColorPrimary">#3f51b5</color>
+    <color name="mColorLight">#8c9eff</color>
+    <color name="mColorPrimaryDark">#304ffe</color>
+    <!-- Accent- Amber theme -->
+    <color name="mAccent">#ffc107</color>
+    <color name="mAccentLight">#ffe57f</color>
+    <color name="mAccentDark">#ffab00</color>
 
     <!-- Begin JN Basic Colors -->
     <!-- Basic colors, laziness -->
