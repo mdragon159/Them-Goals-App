@@ -33,7 +33,7 @@
             <!-- All that messiness above for this drop shadow -->
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/elevation_toolbar"
+                android:layout_height="@dimen/dropshadow_toolbar"
                 android:background="@drawable/toolbar_dropshadow" />
 
             </FrameLayout>

@@ -11,5 +11,6 @@
     <dimen name="general">10dp</dimen> <!-- For general padding+margins -->
 
     <!-- Elevations -->
-    <dimen name="elevation_toolbar">5dp</dimen>
+    <dimen name="elevation_toolbar">0dp</dimen> <!-- Using custom dropshadow instead -->
+    <dimen name="dropshadow_toolbar">5dp</dimen>
 </resources>
