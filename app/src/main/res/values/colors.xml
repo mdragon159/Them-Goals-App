@@ -11,6 +11,10 @@
     <color name="mAccentLight">#ffe57f</color>
     <color name="mAccentDark">#ffab00</color>
 
+    <!-- Background color for the nav list items [selected state] -->
+        <!-- Taken from Google Play Store app -->
+    <color name="ps_drawer_background">#EEEEEE</color>
+
     <!-- Begin JN Basic Colors -->
     <!-- Basic colors, laziness -->
     <color name="white">#FFF</color>
