@@ -9,4 +9,7 @@
 
     <!-- General Dimens -->
     <dimen name="general">10dp</dimen> <!-- For general padding+margins -->
+
+    <!-- Elevations -->
+    <dimen name="elevation_toolbar">5dp</dimen>
 </resources>
