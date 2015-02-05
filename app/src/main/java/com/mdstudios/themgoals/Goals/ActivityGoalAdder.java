@@ -1,4 +1,4 @@
-package com.mdstudios.themgoals;
+package com.mdstudios.themgoals.Goals;
 
 import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
