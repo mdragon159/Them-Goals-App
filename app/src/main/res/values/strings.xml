@@ -10,4 +10,10 @@
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Drawer strings -->
+    <string-array name="drawer_items">
+        <item name="home">Home</item>
+        <item name="goals">Goals</item>
+    </string-array>
+
 </resources>

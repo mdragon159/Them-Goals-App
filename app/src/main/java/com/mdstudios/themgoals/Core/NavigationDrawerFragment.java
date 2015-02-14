@@ -1,16 +1,17 @@
 package com.mdstudios.themgoals.Core;
 
-import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,8 +20,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mdstudios.themgoals.R;
@@ -31,6 +33,8 @@ import com.mdstudios.themgoals.R;
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
 public class NavigationDrawerFragment extends Fragment {
+
+    private static final String LOGTAG = "MD/NavDrawerFrag";
 
     /**
      * Remember the position of the selected item.
@@ -61,6 +65,10 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
+    // The title which was previously held in the Toolbar
+    private CharSequence mPrevTitle = null;
+    private boolean mSelectedPosChanged = false;
+
     public NavigationDrawerFragment() {
     }
 
@@ -77,9 +85,6 @@ public class NavigationDrawerFragment extends Fragment {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
             mFromSavedInstanceState = true;
         }
-
-        // Select either the default item (0) or the last selected item.
-        selectItem(mCurrentSelectedPosition);
     }
 
     @Override
@@ -100,16 +105,6 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                getActivity(),
-                R.layout.list_nav_item,
-                android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_section1),
-                        getString(R.string.title_section2),
-                        getString(R.string.title_section3),
-                }));
-        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
     }
 
@@ -124,6 +119,10 @@ public class NavigationDrawerFragment extends Fragment {
      * @param drawerLayout The DrawerLayout containing this fragment's UI.
      */
     public void setUp(int fragmentId, DrawerLayout drawerLayout, Toolbar toolbar) {
+        // Set up the drawer's data first
+        mDrawerListView.setAdapter(new DrawerAdapter(getActivity()));
+        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+
         mFragmentContainerView = getActivity().findViewById(fragmentId);
         mDrawerLayout = drawerLayout;
 
@@ -131,7 +130,7 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
 
-        ActionBar actionBar = getActionBar();
+        final ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
@@ -151,6 +150,12 @@ public class NavigationDrawerFragment extends Fragment {
                     return;
                 }
 
+                // Reset the title on the toolbar, if applicable
+                if(!mSelectedPosChanged && mPrevTitle != null) {
+                    actionBar.setTitle(mPrevTitle);
+                    mPrevTitle = null;
+                }
+
                 getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
             }
 
@@ -160,6 +165,13 @@ public class NavigationDrawerFragment extends Fragment {
                 if (!isAdded()) {
                     return;
                 }
+
+                // Save the title in the action bar
+                mPrevTitle = actionBar.getTitle();
+                // Now make the actionBar use the "context's" title, as per guidelines
+                actionBar.setTitle(R.string.app_name);
+                // Reset the position change status
+                mSelectedPosChanged = false;
 
                 if (!mUserLearnedDrawer) {
                     // The user manually opened the drawer; store this flag to prevent auto-showing
@@ -191,14 +203,21 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
-    private void selectItem(int position) {
+    // Sets the position only in the drawer
+    public void setSelectedItem(int position) {
         mCurrentSelectedPosition = position;
+        mSelectedPosChanged = true;
+
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
         }
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }
+    }
+
+    private void selectItem(int position) {
+        setSelectedItem(position);
         if (mCallbacks != null) {
             mCallbacks.onNavigationDrawerItemSelected(position);
         }
@@ -239,7 +258,6 @@ public class NavigationDrawerFragment extends Fragment {
         // showGlobalContextActionBar, which controls the top-left area of the action bar.
         if (mDrawerLayout != null && isDrawerOpen()) {
             inflater.inflate(R.menu.global, menu);
-            showGlobalContextActionBar();
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -258,17 +276,6 @@ public class NavigationDrawerFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Per the navigation drawer design guidelines, updates the action bar to show the global app
-     * 'context', rather than just what's in the current screen.
-     */
-    private void showGlobalContextActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setTitle(R.string.app_name);
-    }
-
     private ActionBar getActionBar() {
         return ((ActionBarActivity) getActivity()).getSupportActionBar();
     }
@@ -281,5 +288,64 @@ public class NavigationDrawerFragment extends Fragment {
          * Called when an item in the navigation drawer is selected.
          */
         void onNavigationDrawerItemSelected(int position);
+    }
+
+    class DrawerAdapter extends BaseAdapter {
+        Context mContext;
+        String[] titles;
+
+        DrawerAdapter(Context context) {
+            mContext = context;
+
+            titles = mContext.getResources().getStringArray(R.array.drawer_items);
+        }
+
+        @Override
+        public int getCount() {
+            return titles.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View row = null;
+            ViewHolder holder;
+
+            if(convertView == null) {
+                // Then gotta set up this row for the first time
+                LayoutInflater inflater =
+                        (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                row = inflater.inflate(R.layout.list_nav_item, parent, false);
+
+                // Create a ViewHolder to save all the different parts of the row
+                holder = new ViewHolder();
+                holder.text = (TextView) row.findViewById(R.id.text);
+
+                // Make the row reuse the ViewHolder
+                row.setTag(holder);
+            }
+            else { // Otherwise, use the recycled view
+                row = convertView;
+                holder = (ViewHolder) row.getTag();
+            }
+
+            // Set this view's content
+            holder.text.setText(titles[position]);
+
+            return row;
+        }
+
+        class ViewHolder {
+            public TextView text;
+        }
     }
 }

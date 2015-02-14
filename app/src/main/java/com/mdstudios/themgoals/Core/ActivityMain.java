@@ -1,37 +1,44 @@
 package com.mdstudios.themgoals.Core;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
+import com.mdstudios.themgoals.Goals.GoalsMainFragment;
 import com.mdstudios.themgoals.R;
 
 
 public class ActivityMain extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
+    private static final String LOG_TAG = "MD/ActivityMain";
+    private static final String KEY_DRAWERPOS = "DrawerPosition";
+
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
-    private CharSequence mTitle;
+    // States the last selected position of the drawer
+    private int mDrawerPosition = -1;
 
     // The Actionbar-replacement Toolbar that runs along the top of the screen
     Toolbar mToolbar;
+    // Titles of all the drawer items' toolbar titles
+    String mTitles[];
+
+    /**
+     * Drawer Position Descriptions:
+     * Index 0: Home
+     * Index 1: Goals
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,54 +51,70 @@ public class ActivityMain extends ActionBarActivity
             setSupportActionBar(mToolbar);
         }
 
-        // Initialize and set up the drawer
+        // Initialize the drawer
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
 
-        // Set up the drawer.
+        // Set up the drawer
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout),
                 mToolbar);
 
+        // Get the titles for the Toolbar
+        mTitles = getResources().getStringArray(R.array.drawer_items);
+
         if (savedInstanceState == null) {
-            // Add the sliding tabs content as necessary
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            HomeFragment fragment = new HomeFragment();
-            transaction.replace(R.id.container, fragment);
-            transaction.commit();
+            // If there was no saved position, then the default, starting position should be used
+            mDrawerPosition = 0;
         }
+        else {
+            // Otherwise, get the saved position from the bundle
+            mDrawerPosition = savedInstanceState.getInt(KEY_DRAWERPOS);
+        }
+
+        mNavigationDrawerFragment.setSelectedItem(mDrawerPosition);
+        changeItemSelected(mDrawerPosition);
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
-/*        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();*/
+        // Update the content, title, and everything else as necessary
+        changeItemSelected(position);
     }
 
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
+    // Changes the item selected to display
+    private void changeItemSelected(int position) {
+        // If position was -1, state that there was an error then fix the issue
+        if(position == -1) {
+            Log.e(LOG_TAG, "changeItemSelected(pos) was given -1. Fixing issue for now");
+            position = 0;
         }
-    }
 
-    public void restoreActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
+        // First, update the main content by replacing fragments
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        Fragment newFrag = null;
+        if(position == 0) {
+            // Need to add in the Home fragment
+            newFrag = new HomeFragment();
+        }
+        else if(position == 1) {
+            // Otherwise, adding in the Goals fragment
+            newFrag = new GoalsMainFragment();
+        }
+        else {
+            // OTHERWISE, there was a big mistake
+            Log.e(LOG_TAG, "changeItemSelected(pos: "+position+"): Invalid position");
+            return;
+        }
+        transaction.replace(R.id.container, newFrag);
+        transaction.commit();
+
+        // Set the toolbar title to the correct title
+        getSupportActionBar().setTitle(mTitles[position]);
+
+        // Finally, save that this was the latest position set
+        mDrawerPosition = position;
     }
 
 
@@ -102,7 +125,6 @@ public class ActivityMain extends ActionBarActivity
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.activity_main, menu);
-            restoreActionBar();
             return true;
         }
         return super.onCreateOptionsMenu(menu);
@@ -123,44 +145,12 @@ public class ActivityMain extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        // Store the last selected fragment position
+        outState.putInt(KEY_DRAWERPOS, mDrawerPosition);
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_activity_main, container, false);
-            return rootView;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((ActivityMain) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
-        }
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 
 }
