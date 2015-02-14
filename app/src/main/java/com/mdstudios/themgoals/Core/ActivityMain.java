@@ -1,11 +1,9 @@
 package com.mdstudios.themgoals.Core;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -17,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mdstudios.themgoals.R;
-import com.mdstudios.themgoals.Utils.SlidingTabs.SlidingTabsBasicFragment;
 
 
 public class ActivityMain extends ActionBarActivity
@@ -35,8 +32,6 @@ public class ActivityMain extends ActionBarActivity
 
     // The Actionbar-replacement Toolbar that runs along the top of the screen
     Toolbar mToolbar;
-    // Controls the sliding tab "pages"
-    ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +44,7 @@ public class ActivityMain extends ActionBarActivity
             setSupportActionBar(mToolbar);
         }
 
+        // Initialize and set up the drawer
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -59,27 +55,22 @@ public class ActivityMain extends ActionBarActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout),
                 mToolbar);
 
-        // Set up the Sliding Tabs (Tabs + Viewpager)
         if (savedInstanceState == null) {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            SlidingTabsBasicFragment fragment = new SlidingTabsBasicFragment();
+            // Add the sliding tabs content as necessary
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            HomeFragment fragment = new HomeFragment();
             transaction.replace(R.id.container, fragment);
             transaction.commit();
         }
-    //    initSlidingTabs();
-    }
-
-    private void initSlidingTabs() {
-
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
+/*        FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
+                .commit();*/
     }
 
     public void onSectionAttached(int number) {

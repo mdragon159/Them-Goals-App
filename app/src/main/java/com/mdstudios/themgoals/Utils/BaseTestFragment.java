@@ -1,5 +1,6 @@
 package com.mdstudios.themgoals.Utils;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,7 @@ import com.mdstudios.themgoals.R;
  * Basic fragment for testing purposes
  */
 // TODO: Make two base fragments, one for support library, one for regular fragments
-public class BaseTestFragment extends android.support.v4.app.Fragment {
+public class BaseTestFragment extends Fragment {
 
     FrameLayout mMainLayout; // The parent layout
     int mNewColor = 0; // The new bg color, set from activity

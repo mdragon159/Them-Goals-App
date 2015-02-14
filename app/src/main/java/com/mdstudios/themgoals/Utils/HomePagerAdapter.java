@@ -1,10 +1,10 @@
 package com.mdstudios.themgoals.Utils;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v13.app.FragmentPagerAdapter;
 
 import com.mdstudios.themgoals.R;
 
@@ -13,7 +13,7 @@ import com.mdstudios.themgoals.R;
  *
  * PagerAdapter for the home page's Sliding Tabs
  */
-public class HomePagerAdapter extends FragmentPagerAdapter{
+public class HomePagerAdapter extends FragmentPagerAdapter {
 
     // Three simple fragments
     BaseTestFragment fragA;
