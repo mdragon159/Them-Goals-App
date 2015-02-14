@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mdstudios.themgoals.SlidingTabs;
+package com.mdstudios.themgoals.Utils.SlidingTabs;
 
 import android.content.Context;
 import android.graphics.Typeface;

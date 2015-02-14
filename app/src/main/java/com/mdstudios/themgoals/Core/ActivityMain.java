@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mdstudios.themgoals.R;
-import com.mdstudios.themgoals.SlidingTabs.SlidingTabsBasicFragment;
+import com.mdstudios.themgoals.Utils.SlidingTabs.SlidingTabsBasicFragment;
 
 
 public class ActivityMain extends ActionBarActivity

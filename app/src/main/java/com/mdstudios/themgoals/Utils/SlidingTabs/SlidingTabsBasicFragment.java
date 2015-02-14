@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mdstudios.themgoals.SlidingTabs;
+package com.mdstudios.themgoals.Utils.SlidingTabs;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -68,8 +68,7 @@ public class SlidingTabsBasicFragment extends Fragment {
         mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
         mViewPager.setAdapter(new SamplePagerAdapter());
 
-        // Give the SlidingTabLayout the ViewPager, this must be done AFTER the ViewPager has had
-        // it's PagerAdapter set.
+        // Give the SlidingTabLayout the ViewPager
         mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
         mSlidingTabLayout.setViewPager(mViewPager);
     }
