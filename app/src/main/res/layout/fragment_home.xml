@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         app:textColor="#FFFFFF"
-        app:primaryColor="?attr/colorPrimary"
+        app:primaryColor="?attr/colorPrimaryDark"
         app:accentColor="?attr/colorAccent" />
 
     <android.support.v4.view.ViewPager
