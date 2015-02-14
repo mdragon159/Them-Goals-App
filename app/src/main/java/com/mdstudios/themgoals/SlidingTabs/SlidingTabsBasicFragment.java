@@ -53,7 +53,6 @@ public class SlidingTabsBasicFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_slidingtabssample, container, false);
     }
 
-    // BEGIN_INCLUDE (fragment_onviewcreated)
     /**
      * This is called after the {@link #onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)} has finished.
      * Here we can pick out the {@link android.view.View}s we need to configure from the content view.
@@ -65,20 +64,15 @@ public class SlidingTabsBasicFragment extends Fragment {
      */
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        // BEGIN_INCLUDE (setup_viewpager)
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
         mViewPager.setAdapter(new SamplePagerAdapter());
-        // END_INCLUDE (setup_viewpager)
 
-        // BEGIN_INCLUDE (setup_slidingtablayout)
         // Give the SlidingTabLayout the ViewPager, this must be done AFTER the ViewPager has had
         // it's PagerAdapter set.
         mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
         mSlidingTabLayout.setViewPager(mViewPager);
-        // END_INCLUDE (setup_slidingtablayout)
     }
-    // END_INCLUDE (fragment_onviewcreated)
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} used to display pages in this sample.
@@ -105,7 +99,6 @@ public class SlidingTabsBasicFragment extends Fragment {
             return o == view;
         }
 
-        // BEGIN_INCLUDE (pageradapter_getpagetitle)
         /**
          * Return the title of the item at {@code position}. This is important as what this method
          * returns is what is displayed in the {@link SlidingTabLayout}.
@@ -117,7 +110,6 @@ public class SlidingTabsBasicFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             return "Item " + (position + 1);
         }
-        // END_INCLUDE (pageradapter_getpagetitle)
 
         /**
          * Instantiate the {@link android.view.View} which should be displayed at {@code position}. Here we
