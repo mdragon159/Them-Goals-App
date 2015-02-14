@@ -24,4 +24,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.android.support:support-v13:21.0.3'
     compile 'it.neokree:MaterialTabs:0.11'
+    compile 'com.getbase:floatingactionbutton:1.7.0'
 }
