@@ -8,6 +8,9 @@ import android.support.v13.app.FragmentPagerAdapter;
 
 import com.mdstudios.themgoals.R;
 
+import it.neokree.materialtabs.MaterialTabHost;
+import it.neokree.materialtabs.MaterialTabListener;
+
 /**
  * Created by jawad on 13/02/15.
  *
@@ -61,7 +64,32 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
+    public CharSequence getPageTitle(int position) {
+        return "Frag " + (position + 1);
+    }
+
+    @Override
     public int getCount() {
         return 3;
+    }
+
+    // Insert all the tabs into the provided TabHost
+    public void fillTabHostWithData(MaterialTabHost tabHost, MaterialTabListener listener) {
+        // Fill the tab host with the simple, temporary data
+        tabHost.addTab(
+                tabHost.newTab()
+                .setText("Frag A")
+                .setTabListener(listener)
+        );
+        tabHost.addTab(
+                tabHost.newTab()
+                .setText("Frag B")
+                .setTabListener(listener)
+        );
+        tabHost.addTab(
+                tabHost.newTab()
+                .setText("Frag C")
+                .setTabListener(listener)
+        );
     }
 }
