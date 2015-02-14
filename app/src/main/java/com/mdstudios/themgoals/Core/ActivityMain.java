@@ -67,14 +67,16 @@ public class ActivityMain extends ActionBarActivity
         if (savedInstanceState == null) {
             // If there was no saved position, then the default, starting position should be used
             mDrawerPosition = 0;
+            mNavigationDrawerFragment.setSelectedItem(mDrawerPosition);
+            changeItemSelected(mDrawerPosition);
         }
         else {
             // Otherwise, get the saved position from the bundle
             mDrawerPosition = savedInstanceState.getInt(KEY_DRAWERPOS);
+            mNavigationDrawerFragment.setSelectedItem(mDrawerPosition);
+            // Title needs to be re-set
+            getSupportActionBar().setTitle(mTitles[mDrawerPosition]);
         }
-
-        mNavigationDrawerFragment.setSelectedItem(mDrawerPosition);
-        changeItemSelected(mDrawerPosition);
     }
 
     @Override
