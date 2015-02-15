@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.mdstudios.themgoals.Goals.GoalAdderFragment;
@@ -37,6 +38,8 @@ public class ActivityMain extends ActionBarActivity
     Toolbar mToolbar;
     // Titles of all the drawer items' toolbar titles
     String mTitles[];
+    // States whether or not to use the back button in the Toolbar
+    boolean mShouldBackShow = false;
 
     /**
      * Drawer Position Descriptions:
@@ -67,6 +70,23 @@ public class ActivityMain extends ActionBarActivity
 
         // Get the titles for the Toolbar
         mTitles = getResources().getStringArray(R.array.drawer_items);
+
+        // Set the toolbar to switch between navigation and back button modes
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mShouldBackShow) {
+                    //call onbackpressed or something
+//                    if(displayBackAgain)
+                    return; //return after so you don't call syncState();
+                }
+                else if (mNavigationDrawerFragment.isDrawerOpen())
+                    mNavigationDrawerFragment.closeDrawer();
+                else
+                    mNavigationDrawerFragment.openDrawer();
+                mNavigationDrawerFragment.syncState();
+            }
+        });
 
         mDrawerPosition = -1;
         if (savedInstanceState == null) {
@@ -172,6 +192,11 @@ public class ActivityMain extends ActionBarActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        if(id == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -216,10 +241,13 @@ public class ActivityMain extends ActionBarActivity
             // Lower level fragment should transition horizontally
             fragmentTransaction.setCustomAnimations(R.animator.slide_in_fromright,
                     R.animator.slide_out_toleft);
-
             fragmentTransaction.replace(R.id.container, fragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
+
+//            mNavigationDrawerFragment.showUpButton(true);
+            mShouldBackShow = true;
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
 }

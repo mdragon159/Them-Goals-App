@@ -202,6 +202,16 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
+    public void openDrawer() {mDrawerLayout.openDrawer(mFragmentContainerView);}
+    public void closeDrawer() {mDrawerLayout.closeDrawer(mFragmentContainerView);}
+    public void syncState() {mDrawerToggle.syncState();}
+
+    // Tells the toolbar+drawer to switch to the up button or switch back to the normal drawer
+    public void showUpButton(boolean show) {
+        mDrawerToggle.setDrawerIndicatorEnabled(false);
+        ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
     // Sets the position only in the drawer
     public void setSelectedItem(int position) {
         mCurrentSelectedPosition = position;
