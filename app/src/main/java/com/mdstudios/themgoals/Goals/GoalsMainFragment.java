@@ -6,16 +6,17 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.mdstudios.themgoals.R;
+import com.mdstudios.themgoals.Utils.TransactionHandler;
 
 /**
  * Created by jawad on 13/02/15.
  */
 public class GoalsMainFragment extends Fragment {
     AddFloatingActionButton mAddButton;
+    TransactionHandler.FragmentTransactionHandler mTransactionHandler;
 
     @Nullable
     @Override
@@ -30,8 +31,18 @@ public class GoalsMainFragment extends Fragment {
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Clicked zeh button!", Toast.LENGTH_SHORT).show();
+                launchAdder();
             }
         });
+    }
+
+    private void launchAdder() {
+        // If the transaction handler hasn't been cached yet, simply get it from the Activity
+        if(mTransactionHandler == null) {
+            // TODO: Have a better method than just getting the Activity
+            mTransactionHandler = (TransactionHandler.FragmentTransactionHandler) getActivity();
+        }
+
+        mTransactionHandler.changeFragment(TransactionHandler.RequestType.GOAL_ADDER, true);
     }
 }

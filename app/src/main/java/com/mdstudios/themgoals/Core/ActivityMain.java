@@ -10,13 +10,17 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.mdstudios.themgoals.Goals.GoalAdderFragment;
 import com.mdstudios.themgoals.Goals.GoalsMainFragment;
 import com.mdstudios.themgoals.R;
+import com.mdstudios.themgoals.Utils.TransactionHandler;
 
 
 public class ActivityMain extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks,
+        TransactionHandler.FragmentTransactionHandler{
 
     private static final String LOG_TAG = "MD/ActivityMain";
     private static final String KEY_DRAWERPOS = "DrawerPosition";
@@ -191,4 +195,31 @@ public class ActivityMain extends ActionBarActivity
         super.onSaveInstanceState(outState, outPersistentState);
     }
 
+    @Override
+    public void changeFragment(TransactionHandler.RequestType requestType, boolean addToBackstack) {
+        // Simply call on changeFragment with option 0
+        changeFragment(requestType, addToBackstack, 0);
+    }
+
+    @Override
+    public void changeFragment(TransactionHandler.RequestType requestType, boolean addToBackstack, int option) {
+        if(requestType == TransactionHandler.RequestType.MAIN_DRAWER) {
+            // Simply do a force main content change [don't really care yet for backstack here yet]
+            forceChangeItemSelected(option);
+        }
+        else if(requestType == TransactionHandler.RequestType.GOAL_ADDER) {
+            Toast.makeText(this, "Want the Goal Adder? Too bad", Toast.LENGTH_SHORT).show();
+
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            Fragment fragment = new GoalAdderFragment();
+
+            // Lower level fragment should transition horizontally
+            fragmentTransaction.setCustomAnimations(R.animator.slide_in_fromright,
+                    R.animator.slide_out_toleft);
+
+            fragmentTransaction.replace(R.id.container, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+    }
 }
