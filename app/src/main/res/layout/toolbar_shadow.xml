@@ -5,5 +5,4 @@
     android:layout_height="@dimen/dropshadow_toolbar"
     android:background="@drawable/toolbar_dropshadow"
     android:layout_alignParentTop="true"
-    android:layout_marginTop="48dp"
 />

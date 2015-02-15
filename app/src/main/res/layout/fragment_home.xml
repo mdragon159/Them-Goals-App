@@ -29,6 +29,10 @@
     </LinearLayout>
 
     <!-- Dropshadow for under the toolbar + tabhost -->
-    <include layout="@layout/toolbar_shadow" />
+    <include layout="@layout/toolbar_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dropshadow_toolbar"
+        android:layout_marginTop="48dp"
+        />
 
 </RelativeLayout>
