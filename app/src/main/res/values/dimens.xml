@@ -13,4 +13,7 @@
     <!-- Elevations -->
     <dimen name="elevation_toolbar">0dp</dimen> <!-- Using custom dropshadow instead -->
     <dimen name="dropshadow_toolbar">5dp</dimen>
+
+    <!-- Animation values (move possibly to another resource file?) -->
+    <integer name="transition_main_duration">250</integer>
 </resources>

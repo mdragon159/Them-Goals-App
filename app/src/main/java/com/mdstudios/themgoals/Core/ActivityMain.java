@@ -64,17 +64,17 @@ public class ActivityMain extends ActionBarActivity
         // Get the titles for the Toolbar
         mTitles = getResources().getStringArray(R.array.drawer_items);
 
+        mDrawerPosition = -1;
         if (savedInstanceState == null) {
             // If there was no saved position, then the default, starting position should be used
-            mDrawerPosition = 0;
-            forceChangeItemSelected(mDrawerPosition);
+            forceChangeItemSelected(0);
         }
         else {
             // Otherwise, get the saved position from the bundle
-            mDrawerPosition = savedInstanceState.getInt(KEY_DRAWERPOS);
-            mNavigationDrawerFragment.setSelectedItem(mDrawerPosition);
+            int position = savedInstanceState.getInt(KEY_DRAWERPOS);
+            mNavigationDrawerFragment.setSelectedItem(position);
             // Title needs to be re-set
-            getSupportActionBar().setTitle(mTitles[mDrawerPosition]);
+            getSupportActionBar().setTitle(mTitles[position]);
         }
     }
 
@@ -91,37 +91,61 @@ public class ActivityMain extends ActionBarActivity
     }
 
     // Changes the item selected to display
-    private void changeItemSelected(int position) {
+    private void changeItemSelected(int newPos) {
+        // If old position = new position, do nothing
+        if(mDrawerPosition == newPos) return;
+
         // If position was -1, state that there was an error then fix the issue
-        if(position == -1) {
+        if(newPos == -1) {
             Log.e(LOG_TAG, "changeItemSelected(pos) was given -1. Fixing issue for now");
-            position = 0;
+            newPos = 0;
         }
 
         // First, update the main content by replacing fragments
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         Fragment newFrag = null;
-        if(position == 0) {
+
+        //-> Choosing which fragment to show logic
+        if(newPos == 0) {
             // Need to add in the Home fragment
             newFrag = new HomeFragment();
         }
-        else if(position == 1) {
+        else if(newPos == 1) {
             // Otherwise, adding in the Goals fragment
             newFrag = new GoalsMainFragment();
         }
         else {
             // OTHERWISE, there was a big mistake
-            Log.e(LOG_TAG, "changeItemSelected(pos: "+position+"): Invalid position");
+            Log.e(LOG_TAG, "changeItemSelected(pos: "+newPos+"): Invalid position");
             return;
         }
+
+        //-> Choosing which animations to use logic
+        int transitionIn, transitionOut;
+        if(mDrawerPosition == -1) {
+            // If this is the first fragment being added - one way or another - use no transitions
+            transitionIn = transitionOut = R.animator.do_nothing;
+        }
+        else if(mDrawerPosition < newPos) {
+            // The new item is entering from the right side, and the old is moving out the left
+            transitionIn = R.animator.slide_in_fromright;
+            transitionOut = R.animator.slide_out_toleft;
+        }
+        else {
+            // Otherwise, new item is entering from left and old is moving out to right
+            transitionIn = R.animator.slide_in_fromleft;
+            transitionOut = R.animator.slide_out_toright;
+        }
+
+        transaction.setCustomAnimations(transitionIn, transitionOut);
         transaction.replace(R.id.container, newFrag);
         transaction.commit();
 
         // Set the toolbar title to the correct title
-        getSupportActionBar().setTitle(mTitles[position]);
+        getSupportActionBar().setTitle(mTitles[newPos]);
 
         // Finally, save that this was the latest position set
-        mDrawerPosition = position;
+        mDrawerPosition = newPos;
     }
 
 
