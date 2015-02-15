@@ -7,7 +7,7 @@ import android.widget.RelativeLayout;
 /**
  * Created by jawad on 15/02/15.
  *
- * Purpose: Support fragment transitions
+ * Purpose: Support fragment translate transitions
  */
 public class RelativeLayoutAnim extends RelativeLayout {
     public RelativeLayoutAnim(Context context) {
@@ -30,5 +30,17 @@ public class RelativeLayoutAnim extends RelativeLayout {
         // TODO: cache width
         final int width = getWidth();
         setX((width > 0) ? (xFraction * width) : -9999);
+    }
+
+    public void setYFraction(final float fraction) {
+        float translationY = getHeight() * fraction;
+        setTranslationY(translationY);
+    }
+
+    public float getYFraction() {
+        if (getHeight() == 0) {
+            return 0;
+        }
+        return getTranslationY() / getHeight();
     }
 }

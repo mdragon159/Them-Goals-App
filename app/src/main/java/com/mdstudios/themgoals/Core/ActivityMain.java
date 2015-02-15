@@ -127,14 +127,14 @@ public class ActivityMain extends ActionBarActivity
             transitionIn = transitionOut = R.animator.do_nothing;
         }
         else if(mDrawerPosition < newPos) {
-            // The new item is entering from the right side, and the old is moving out the left
-            transitionIn = R.animator.slide_in_fromright;
-            transitionOut = R.animator.slide_out_toleft;
+            // The new item is entering from below, and the old is moving out to above
+            transitionIn = R.animator.slide_in_frombottom;
+            transitionOut = R.animator.slide_out_totop;
         }
         else {
-            // Otherwise, new item is entering from left and old is moving out to right
-            transitionIn = R.animator.slide_in_fromleft;
-            transitionOut = R.animator.slide_out_toright;
+            // Otherwise, new item is entering from above and old is moving out to below
+            transitionIn = R.animator.slide_in_fromtop;
+            transitionOut = R.animator.slide_out_tobottom;
         }
 
         transaction.setCustomAnimations(transitionIn, transitionOut);
