@@ -4,6 +4,14 @@ android:background="@color/white"
 android:layout_width="match_parent"
 android:layout_height="match_parent">
 
+<!-- Dropshadow for under the toolbar + tabhost -->
+<View
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dropshadow_toolbar"
+    android:background="@drawable/toolbar_dropshadow"
+    android:layout_alignParentTop="true"
+    />
+
 <com.getbase.floatingactionbutton.AddFloatingActionButton
     android:id="@+id/semi_transparent"
     android:layout_width="wrap_content"
