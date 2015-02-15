@@ -1,0 +1,22 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:fab="http://schemas.android.com/apk/res-auto"
+android:background="@color/white"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+
+    <!-- Dropshadow for under the toolbar + tabhost -->
+    <include layout="@layout/toolbar_shadow" />
+
+    <com.getbase.floatingactionbutton.AddFloatingActionButton
+        android:id="@+id/add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_plusIconColor="@color/white"
+        fab:fab_colorNormal="@color/mAccent"
+        fab:fab_colorPressed="@color/mAccentLight"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"/>
+
+</RelativeLayout>
