@@ -67,8 +67,7 @@ public class ActivityMain extends ActionBarActivity
         if (savedInstanceState == null) {
             // If there was no saved position, then the default, starting position should be used
             mDrawerPosition = 0;
-            mNavigationDrawerFragment.setSelectedItem(mDrawerPosition);
-            changeItemSelected(mDrawerPosition);
+            forceChangeItemSelected(mDrawerPosition);
         }
         else {
             // Otherwise, get the saved position from the bundle
@@ -82,6 +81,12 @@ public class ActivityMain extends ActionBarActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // Update the content, title, and everything else as necessary
+        changeItemSelected(position);
+    }
+
+    // Changes both the drawer position as well as the content frag position
+    private void forceChangeItemSelected(int position) {
+        mNavigationDrawerFragment.setSelectedItem(position);
         changeItemSelected(position);
     }
 
@@ -140,6 +145,18 @@ public class ActivityMain extends ActionBarActivity
         int id = item.getItemId();
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        // If not on the home page, go back to the home page
+        if(mDrawerPosition > 0) {
+            forceChangeItemSelected(0);
+        }
+        // Otherwise, let the system handle this back press
+        else {
+            super.onBackPressed();
+        }
     }
 
     @Override
