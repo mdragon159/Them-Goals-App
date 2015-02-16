@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.mdstudios.themgoals.Goals.GoalAdderFragment;
@@ -38,8 +37,8 @@ public class ActivityMain extends ActionBarActivity
     Toolbar mToolbar;
     // Titles of all the drawer items' toolbar titles
     String mTitles[];
-    // States whether or not to use the back button in the Toolbar
-    boolean mShouldBackShow = false;
+    // States whether or not the fragment should handle menu events
+    private boolean mIsFragmentHandlingMenus = false;
 
     /**
      * Drawer Position Descriptions:
@@ -68,25 +67,11 @@ public class ActivityMain extends ActionBarActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout),
                 mToolbar);
 
+        // TODO: Check if this helps to catch the main toolbar button click
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         // Get the titles for the Toolbar
         mTitles = getResources().getStringArray(R.array.drawer_items);
-
-        // Set the toolbar to switch between navigation and back button modes
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mShouldBackShow) {
-                    //call onbackpressed or something
-//                    if(displayBackAgain)
-                    return; //return after so you don't call syncState();
-                }
-                else if (mNavigationDrawerFragment.isDrawerOpen())
-                    mNavigationDrawerFragment.closeDrawer();
-                else
-                    mNavigationDrawerFragment.openDrawer();
-                mNavigationDrawerFragment.syncState();
-            }
-        });
 
         mDrawerPosition = -1;
         if (savedInstanceState == null) {
@@ -190,11 +175,15 @@ public class ActivityMain extends ActionBarActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        if(item.getItemId() == android.R.id.home) Log.d(LOG_TAG, "Activity got it....");
 
-        if(id == android.R.id.home) {
-            onBackPressed();
-            return true;
+        // If the fragment is supposed to handle things, then let it
+        if(mIsFragmentHandlingMenus) return false;
+
+        int id = item.getItemId();
+        if(id == R.id.save) {
+            // This isn't implemented! If chosen, then there's a bug!
+            Log.e(LOG_TAG, "onOptionsItemSelected: Save was selected!");
         }
 
         return super.onOptionsItemSelected(item);
@@ -246,8 +235,17 @@ public class ActivityMain extends ActionBarActivity
             fragmentTransaction.commit();
 
 //            mNavigationDrawerFragment.showUpButton(true);
-            mShouldBackShow = true;
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//            mShouldBackShow = true;
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+    }
+
+    @Override
+    public void fragmentHandlingMenus(boolean isFragmentHandlingMenus) {
+        // Simply store the setting
+        mIsFragmentHandlingMenus = isFragmentHandlingMenus;
+
+        // Toggle the drawer as necessary
+        mNavigationDrawerFragment.toggleDrawerUse(!isFragmentHandlingMenus);
     }
 }

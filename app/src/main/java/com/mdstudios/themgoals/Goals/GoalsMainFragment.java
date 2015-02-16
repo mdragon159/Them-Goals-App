@@ -37,12 +37,16 @@ public class GoalsMainFragment extends Fragment {
     }
 
     private void launchAdder() {
-        // If the transaction handler hasn't been cached yet, simply get it from the Activity
+        getFragmentManager().beginTransaction()
+                .add(R.id.container, new GoalAdderFragment())
+                .addToBackStack(null).commit();
+
+/*        // If the transaction handler hasn't been cached yet, simply get it from the Activity
         if(mTransactionHandler == null) {
             // TODO: Have a better method than just getting the Activity
             mTransactionHandler = (TransactionHandler.FragmentTransactionHandler) getActivity();
         }
 
-        mTransactionHandler.changeFragment(TransactionHandler.RequestType.GOAL_ADDER, true);
+        mTransactionHandler.changeFragment(TransactionHandler.RequestType.GOAL_ADDER, true);*/
     }
 }

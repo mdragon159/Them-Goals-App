@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -207,9 +208,11 @@ public class NavigationDrawerFragment extends Fragment {
     public void syncState() {mDrawerToggle.syncState();}
 
     // Tells the toolbar+drawer to switch to the up button or switch back to the normal drawer
-    public void showUpButton(boolean show) {
-        mDrawerToggle.setDrawerIndicatorEnabled(false);
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+    public void toggleDrawerUse(boolean useDrawer) {
+        // Enable/Disable the icon being used by the drawer
+        mDrawerToggle.setDrawerIndicatorEnabled(useDrawer);
+
+        // TODO: Enable/Disable the drawer even being able to open/close
     }
 
     // Sets the position only in the drawer
@@ -273,6 +276,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home) Log.d(LOGTAG, "Drawer got it....");
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }

@@ -6,6 +6,9 @@
     <string name="activity_home">Home</string>
     <string name="activity_goals_adder">New Goal</string>
 
+    <!-- General UI Text -->
+    <string name="save">Save</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
@@ -16,5 +19,8 @@
         <item name="home">Home</item>
         <item name="goals">Goals</item>
     </string-array>
+
+    <!-- Fragment Titles -->
+    <string name="title_addgoal">Add New Goal</string>
 
 </resources>
