@@ -201,10 +201,15 @@ public class ActivityMain extends ActionBarActivity
 
     @Override
     public void onBackPressed() {
-        // If not on the home page, go back to the home page
-        if(mDrawerPosition > 0) {
+        // If there's anything on the fragment backstack, follow its instructions
+        if(getFragmentManager().getBackStackEntryCount() > 0)
+            getFragmentManager().popBackStack();
+
+        // Else, if not on the home page, go back to the home page
+        else if(mDrawerPosition > 0) {
             forceChangeItemSelected(0);
         }
+
         // Otherwise, let the system handle this back press
         else {
             super.onBackPressed();
