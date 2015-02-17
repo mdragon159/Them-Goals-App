@@ -85,6 +85,16 @@ public class ActivityMain extends ActionBarActivity
             // Title needs to be re-set
             getSupportActionBar().setTitle(mTitles[position]);
         }
+
+        // If I include the below bit, then the DrawerToggle doesn't function
+            // I don't know how to switch it back at all
+/*        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(LOG_TAG, "Navigation was clicked");
+
+            }
+        });*/
     }
 
     @Override
@@ -175,6 +185,7 @@ public class ActivityMain extends ActionBarActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        Log.d(LOG_TAG, "Activity responding to menu click...");
         if(item.getItemId() == android.R.id.home) Log.d(LOG_TAG, "Activity got it....");
 
         // If the fragment is supposed to handle things, then let it

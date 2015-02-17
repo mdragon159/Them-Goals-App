@@ -75,6 +75,7 @@ public class GoalAdderFragment extends DialogFragment {
 
         switch (item.getItemId()) {
             case R.id.save:
+                mFragHandler.fragmentHandlingMenus(false);
                 return true;
             case android.R.id.home:
                 return true;

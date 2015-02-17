@@ -24,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mdstudios.themgoals.R;
 
@@ -68,6 +69,7 @@ public class NavigationDrawerFragment extends Fragment {
     // The title which was previously held in the Toolbar
     private CharSequence mPrevTitle = null;
     private boolean mSelectedPosChanged = false;
+    private View.OnClickListener mOriginalListener;
 
     public NavigationDrawerFragment() {
     }
@@ -201,19 +203,31 @@ public class NavigationDrawerFragment extends Fragment {
         });
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        mOriginalListener = mDrawerToggle.getToolbarNavigationClickListener();
     }
 
     public void openDrawer() {mDrawerLayout.openDrawer(mFragmentContainerView);}
     public void closeDrawer() {mDrawerLayout.closeDrawer(mFragmentContainerView);}
     public void syncState() {mDrawerToggle.syncState();}
 
-    // Tells the toolbar+drawer to switch to the up button or switch back to the normal drawer
-    public void toggleDrawerUse(boolean useDrawer) {
-        // Enable/Disable the icon being used by the drawer
-        mDrawerToggle.setDrawerIndicatorEnabled(useDrawer);
+// Tells the toolbar+drawer to switch to the up button or switch back to the normal drawer
+public void toggleDrawerUse(boolean useDrawer) {
+    // Enable/Disable the icon being used by the drawer
+    mDrawerToggle.setDrawerIndicatorEnabled(useDrawer);
 
-        // TODO: Enable/Disable the drawer even being able to open/close
-    }
+    if(useDrawer)
+        mDrawerToggle.setToolbarNavigationClickListener(mOriginalListener);
+    else
+        mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "Drawer my man...", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    // TODO: Enable/Disable the drawer even being able to open/close
+}
 
     // Sets the position only in the drawer
     public void setSelectedItem(int position) {
@@ -276,6 +290,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d(LOGTAG, "Drawer responding to menu click...");
         if(item.getItemId() == android.R.id.home) Log.d(LOGTAG, "Drawer got it....");
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
