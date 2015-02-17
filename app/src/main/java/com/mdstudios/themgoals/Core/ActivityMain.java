@@ -18,7 +18,7 @@ import com.mdstudios.themgoals.Goals.GoalsMainFragment;
 import com.mdstudios.themgoals.R;
 import com.mdstudios.themgoals.Utils.TransactionHandler;
 
-
+// TODO: Save last
 public class ActivityMain extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
         TransactionHandler.FragmentTransactionHandler{
@@ -81,10 +81,10 @@ public class ActivityMain extends ActionBarActivity
         }
         else {
             // Otherwise, get the saved position from the bundle
-            int position = savedInstanceState.getInt(KEY_DRAWERPOS);
-            mNavigationDrawerFragment.setSelectedItem(position);
+            mDrawerPosition = savedInstanceState.getInt(KEY_DRAWERPOS);
+            mNavigationDrawerFragment.setSelectedItem(mDrawerPosition);
             // Title needs to be re-set
-            getSupportActionBar().setTitle(mTitles[position]);
+            getSupportActionBar().setTitle(mTitles[mDrawerPosition]);
         }
 
         // If I include the below bit, then the DrawerToggle doesn't function

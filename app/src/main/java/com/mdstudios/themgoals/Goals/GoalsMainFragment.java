@@ -38,6 +38,7 @@ public class GoalsMainFragment extends Fragment {
 
     private void launchAdder() {
         getFragmentManager().beginTransaction()
+                .setCustomAnimations(R.animator.slide_in_fromright, R.animator.slide_out_toleft)
                 .replace(R.id.container, new GoalAdderFragment())
                 .addToBackStack(null).commit();
 
