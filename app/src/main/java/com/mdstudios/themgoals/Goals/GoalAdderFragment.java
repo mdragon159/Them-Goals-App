@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -48,15 +47,12 @@ public class GoalAdderFragment extends Fragment {
         super.onResume();
 
         setUp();
-
-        Log.d(LOGTAG, "onResume() called");
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
-        Log.d(LOGTAG, "onStop() called");
         // Clean up the UI
         cleanUp();
     }
@@ -93,8 +89,7 @@ public class GoalAdderFragment extends Fragment {
            mToolbarListener = new View.OnClickListener() {
                @Override
                public void onClick(View v) {
-                   Log.d(LOGTAG, "onClick() of toolbar called");
-                   cleanUpThenClose();
+                   dismiss();
                }
            };
 
@@ -115,21 +110,16 @@ public class GoalAdderFragment extends Fragment {
 
     // Cleans up the UI changes and anything else necessary for the
     private void cleanUp() {
-        Log.d(LOGTAG, "Adios~");
-
         // Tell the Activity that it can now handle menu events once again
+            // Note that this also resets the Drawer icon+functionality
         mFragHandler.fragmentHandlingMenus(false, null);
 
-        // TODO: Reset the toolbar UI
         // Restore the previous title of the Toolbar
         ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(mPrevTitle);
     }
 
-    // Cleans up then closes the fragment
-    private void cleanUpThenClose() {
-        // Clean up anything necessary
-        cleanUp();
-
+    // Closes the fragment- note that cleanUp is called nonetheless
+    private void dismiss() {
         // Close the fragment
             // TODO: Close in a much better way
         getActivity().onBackPressed();
