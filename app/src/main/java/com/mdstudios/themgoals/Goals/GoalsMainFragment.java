@@ -38,7 +38,7 @@ public class GoalsMainFragment extends Fragment {
 
     private void launchAdder() {
         getFragmentManager().beginTransaction()
-                .add(R.id.container, new GoalAdderFragment())
+                .replace(R.id.container, new GoalAdderFragment())
                 .addToBackStack(null).commit();
 
 /*        // If the transaction handler hasn't been cached yet, simply get it from the Activity

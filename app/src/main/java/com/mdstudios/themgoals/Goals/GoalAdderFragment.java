@@ -131,6 +131,7 @@ public class GoalAdderFragment extends Fragment {
         cleanUp();
 
         // Close the fragment
+            // TODO: Close in a much better way
         getActivity().getFragmentManager().beginTransaction().remove(this).commit();
     }
 }
