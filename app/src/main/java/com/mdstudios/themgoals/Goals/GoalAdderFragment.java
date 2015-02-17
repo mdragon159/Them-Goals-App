@@ -85,17 +85,6 @@ public class GoalAdderFragment extends Fragment {
 
    // Sets up the UI and anything else necessary for this fragment
    private void setUp() {
-       // Get a reference to the ActionBar only once
-       ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-
-       // Cache the previous title of the toolbar
-       mPrevTitle = actionBar.getTitle();
-
-       // Set up the toolbar
-       actionBar.setDisplayHomeAsUpEnabled(true);
-       actionBar.setHomeAsUpIndicator(android.R.drawable.ic_menu_close_clear_cancel);
-       actionBar.setTitle(getResources().getString(R.string.title_addgoal));
-
        // Cache the Activity as the frag handler, if necessary
        if(mFragHandler == null)
            mFragHandler = (TransactionHandler.FragmentTransactionHandler) getActivity();
@@ -111,6 +100,17 @@ public class GoalAdderFragment extends Fragment {
 
        // Tell the Activity to let fragments handle the menu events
        mFragHandler.fragmentHandlingMenus(true, mToolbarListener);
+
+       // Get a reference to the ActionBar only once
+       ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+
+       // Cache the previous title of the toolbar
+       mPrevTitle = actionBar.getTitle();
+
+       // Set up the toolbar
+       actionBar.setDisplayHomeAsUpEnabled(true);
+       actionBar.setHomeAsUpIndicator(android.R.drawable.ic_menu_close_clear_cancel);
+       actionBar.setTitle(getResources().getString(R.string.title_addgoal));
    }
 
     // Cleans up the UI changes and anything else necessary for the
@@ -132,6 +132,6 @@ public class GoalAdderFragment extends Fragment {
 
         // Close the fragment
             // TODO: Close in a much better way
-        getActivity().getFragmentManager().beginTransaction().remove(this).commit();
+        getActivity().onBackPressed();
     }
 }
