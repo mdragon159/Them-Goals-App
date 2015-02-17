@@ -25,6 +25,8 @@ public class GoalAdderFragment extends DialogFragment {
 
     // Used to tell Activity to use
     private TransactionHandler.FragmentTransactionHandler mFragHandler;
+    // Used to close the fragment once the "X"/toolbar button is clicked
+    View.OnClickListener mToolbarListener;
 
     @Nullable
     @Override
@@ -48,11 +50,20 @@ public class GoalAdderFragment extends DialogFragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        // Cache the Activity as the frag handler if necessary
+        // Cache the Activity as the frag handler, if necessary
         if(mFragHandler == null)
             mFragHandler = (TransactionHandler.FragmentTransactionHandler) getActivity();
+        // Create the Toolbar home/close listener, if necessary
+        if(mToolbarListener == null)
+            mToolbarListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getActivity(), "Success?", Toast.LENGTH_SHORT).show();
+                }
+            };
+
         // Tell the Activity to let fragments handle the menu events
-        mFragHandler.fragmentHandlingMenus(true);
+        mFragHandler.fragmentHandlingMenus(true, mToolbarListener);
     }
 
     @Override
@@ -60,7 +71,7 @@ public class GoalAdderFragment extends DialogFragment {
         super.onDetach();
 
         // Tell the Activity that it can now handle menu events once again
-        mFragHandler.fragmentHandlingMenus(false);
+        mFragHandler.fragmentHandlingMenus(false, null);
     }
 
     @Override
@@ -75,7 +86,7 @@ public class GoalAdderFragment extends DialogFragment {
 
         switch (item.getItemId()) {
             case R.id.save:
-                mFragHandler.fragmentHandlingMenus(false);
+                // TODO: Save everything, revert ActionBar changes, then close fragment
                 return true;
             case android.R.id.home:
                 return true;

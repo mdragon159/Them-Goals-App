@@ -1,5 +1,7 @@
 package com.mdstudios.themgoals.Utils;
 
+import android.view.View;
+
 /**
  * Created by jawad on 15/02/15.
  *
@@ -15,6 +17,6 @@ public class TransactionHandler {
     public interface FragmentTransactionHandler {
         public void changeFragment(RequestType requestType, boolean addToBackstack);
         public void changeFragment(RequestType requestType, boolean addToBackstack, int option);
-        public void fragmentHandlingMenus(boolean isFragmentHandingMenus);
+        public void fragmentHandlingMenus(boolean isFragmentHandingMenus, View.OnClickListener newHomeButtonListener);
     }
 }

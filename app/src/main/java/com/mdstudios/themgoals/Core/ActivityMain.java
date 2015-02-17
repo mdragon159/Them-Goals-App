@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.mdstudios.themgoals.Goals.GoalAdderFragment;
@@ -252,11 +253,12 @@ public class ActivityMain extends ActionBarActivity
     }
 
     @Override
-    public void fragmentHandlingMenus(boolean isFragmentHandlingMenus) {
+    public void fragmentHandlingMenus(boolean isFragmentHandlingMenus,
+                                      View.OnClickListener newHomeButtonListener) {
         // Simply store the setting
         mIsFragmentHandlingMenus = isFragmentHandlingMenus;
 
         // Toggle the drawer as necessary
-        mNavigationDrawerFragment.toggleDrawerUse(!isFragmentHandlingMenus);
+        mNavigationDrawerFragment.toggleDrawerUse(!isFragmentHandlingMenus, newHomeButtonListener);
     }
 }

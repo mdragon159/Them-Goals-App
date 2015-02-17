@@ -24,7 +24,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mdstudios.themgoals.R;
 
@@ -212,19 +211,15 @@ public class NavigationDrawerFragment extends Fragment {
     public void syncState() {mDrawerToggle.syncState();}
 
 // Tells the toolbar+drawer to switch to the up button or switch back to the normal drawer
-public void toggleDrawerUse(boolean useDrawer) {
+public void toggleDrawerUse(boolean useDrawer, View.OnClickListener listener) {
     // Enable/Disable the icon being used by the drawer
     mDrawerToggle.setDrawerIndicatorEnabled(useDrawer);
 
+    // Either use the original drawer/home button listener, or use the provided one as requested
     if(useDrawer)
         mDrawerToggle.setToolbarNavigationClickListener(mOriginalListener);
     else
-        mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Drawer my man...", Toast.LENGTH_SHORT).show();
-            }
-        });
+        mDrawerToggle.setToolbarNavigationClickListener(listener);
 
     // TODO: Enable/Disable the drawer even being able to open/close
 }
