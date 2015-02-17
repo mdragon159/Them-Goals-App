@@ -5,7 +5,6 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -81,12 +80,11 @@ public class GoalAdderFragment extends DialogFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d(LOGTAG, "Item id: " + item.getItemId() + " | Save id: " + R.id.save);
-        Toast.makeText(getActivity(), "Fragment activated!", Toast.LENGTH_SHORT).show();
-
         switch (item.getItemId()) {
             case R.id.save:
                 // TODO: Save everything, revert ActionBar changes, then close fragment
+                Toast.makeText(getActivity(), "Save not yet implemented ;D", Toast.LENGTH_SHORT)
+                        .show();
                 return true;
             case android.R.id.home:
                 return true;

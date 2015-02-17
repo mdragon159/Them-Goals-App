@@ -186,8 +186,6 @@ public class ActivityMain extends ActionBarActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        Log.d(LOG_TAG, "Activity responding to menu click...");
-        if(item.getItemId() == android.R.id.home) Log.d(LOG_TAG, "Activity got it....");
 
         // If the fragment is supposed to handle things, then let it
         if(mIsFragmentHandlingMenus) return false;
@@ -227,6 +225,7 @@ public class ActivityMain extends ActionBarActivity
         changeFragment(requestType, addToBackstack, 0);
     }
 
+    // TODO: Delete above and below methods, or make them actually useful
     @Override
     public void changeFragment(TransactionHandler.RequestType requestType, boolean addToBackstack, int option) {
         if(requestType == TransactionHandler.RequestType.MAIN_DRAWER) {
@@ -245,10 +244,6 @@ public class ActivityMain extends ActionBarActivity
             fragmentTransaction.replace(R.id.container, fragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
-
-//            mNavigationDrawerFragment.showUpButton(true);
-//            mShouldBackShow = true;
-//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
 
