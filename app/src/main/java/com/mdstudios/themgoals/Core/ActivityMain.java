@@ -16,6 +16,12 @@ import android.widget.Toast;
 import com.mdstudios.themgoals.Goals.GoalAdderFragment;
 import com.mdstudios.themgoals.Goals.GoalsMainFragment;
 import com.mdstudios.themgoals.R;
+import com.mdstudios.themgoals.Temp.AboutFragment;
+import com.mdstudios.themgoals.Temp.FreeJournalFragment;
+import com.mdstudios.themgoals.Temp.HistoryFragment;
+import com.mdstudios.themgoals.Temp.InspirationFragment;
+import com.mdstudios.themgoals.Temp.SettingsFragment;
+import com.mdstudios.themgoals.Temp.StatsFragment;
 import com.mdstudios.themgoals.Utils.TransactionHandler;
 
 // TODO: Save last
@@ -45,6 +51,12 @@ public class ActivityMain extends ActionBarActivity
      * Drawer Position Descriptions:
      * Index 0: Home
      * Index 1: Goals
+     * Index 2: Free Journal
+     * Index 3: Inspiration
+     * Index 4: Stats
+     * Index 5: History
+     * Index 6: Settings
+     * Index 7: About
      */
 
     @Override
@@ -126,18 +138,43 @@ public class ActivityMain extends ActionBarActivity
         Fragment newFrag = null;
 
         //-> Choosing which fragment to show logic
-        if(newPos == 0) {
-            // Need to add in the Home fragment
-            newFrag = new HomeFragment();
-        }
-        else if(newPos == 1) {
-            // Otherwise, adding in the Goals fragment
-            newFrag = new GoalsMainFragment();
-        }
-        else {
-            // OTHERWISE, there was a big mistake
-            Log.e(LOG_TAG, "changeItemSelected(pos: "+newPos+"): Invalid position");
-            return;
+        switch(newPos) {
+            case 0:
+                // Need to add in the Home fragment
+                newFrag = new HomeFragment();
+                break;
+            case 1:
+                // Otherwise, adding in the Goals fragment
+                newFrag = new GoalsMainFragment();
+                break;
+            case 2:
+                // Free Journal frag
+                newFrag = new FreeJournalFragment();
+                break;
+            case 3:
+                // Inspiration frag
+                newFrag = new InspirationFragment();
+                break;
+            case 4:
+                // Stats frag
+                newFrag = new StatsFragment();
+                break;
+            case 5:
+                // History frag
+                newFrag = new HistoryFragment();
+                break;
+            case 6:
+                // Settings frag
+                newFrag = new SettingsFragment();
+                break;
+            case 7:
+                // About frag
+                newFrag = new AboutFragment();
+                break;
+            default:
+                // OTHERWISE, there was a big mistake
+                Log.e(LOG_TAG, "changeItemSelected(pos: "+newPos+"): Invalid position");
+                return;
         }
 
         //-> Choosing which animations to use logic

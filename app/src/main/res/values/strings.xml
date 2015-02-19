@@ -18,6 +18,12 @@
     <string-array name="drawer_items">
         <item name="home">Home</item>
         <item name="goals">Goals</item>
+        <item anme = "free_journal">Free Journal</item>
+        <item name="inspiration">Inspiration</item>
+        <item name="stats">Stats</item>
+        <item name="history">History</item>
+        <item name="settings">Settings</item>
+        <item name="about">About</item>
     </string-array>
 
     <!-- Fragment Titles -->
